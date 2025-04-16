@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!--Custom layout for Invoice Report-->
+	<template id="external_layout_purchase_report">
+		<style>
+			* {
+				font-family: "Times New Roman", Times, serif;
+			}
+		</style>		
+		<t t-if="not o" t-set="o" t-value="doc"/>
+		<t t-if="not company">
+			<!-- Multicompany -->
+			<t t-if="company_id">
+				<t t-set="company" t-value="company_id"/></t>
+			<t t-elif="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id.sudo()"/></t>
+			<t t-else="else">
+			<t t-set="company" t-value="res_company"/></t>
+		</t>
+		<t t-call="purchase_report.external_layout_standard_custom_purchase">
+			<t t-out="0"/>
+		</t>
+	</template>
+
+	<template id="external_layout_standard_custom_purchase">
+		<style>
+			* {
+				font-family: "Times New Roman", Times, serif;
+			}
+		</style>		
+		<div class="header">
+         <div style="width: 100%; border-collapse: collapse; border: 0px solid black; overflow: hidden;">
+            <table style="width: 100%; border-spacing: 0;">
+               <tr>
+                  <td colspan="2" style="width: 80%; padding: 10px; text-align: left; vertical-align: middle;border-right:hidden;color:#35095e;font-size: 28px;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 24px;"></strong> -->
+                     <strong><t t-esc="o.company_id.name"/></strong>
+                  </td>
+                  <td rowspan="3" style="width: 20%; padding: 2px; text-align: center; vertical-align: middle;border-left:hidden;">
+                     <img t-if="o.company_id.logo"
+										t-attf-src="data:image/png;base64, #{o.company_id.logo}"
+										style="width: 100%;"
+										alt="Logo" />
+                  </td>
+               </tr>
+               <tr>
+                  <td colspan="2" style="width: 80%; padding: 10px; text-align: left; vertical-align: middle;background-color:#00a197;border-right:hidden;border-bottom:hidden;border-top:hidden;color:#FFFFFF;font-size: 18px;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 18px;"></strong> -->
+                     <!-- <strong>FOODSTUFF TRADING LLC</strong> -->
+                  </td>
+               </tr>
+               <tr>
+                  <td style="width: 40%; padding: 10px; text-align: left; vertical-align: middle;border-right:hidden;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 18px;"></strong><br/> -->
+                     <span style="font-size: 14px;">
+                        <t t-esc="o.company_id.street"/>
+                        <t t-if="o.company_id.street2">
+                           , 
+                           <t t-esc="o.company_id.street2"/>
+                        </t>
+                        <br/>
+                        <t t-esc="o.company_id.city"/>
+                        , 
+                        <t t-esc="o.company_id.state_id.name"/>
+                        , 
+                        <t t-esc="o.company_id.zip"/>
+                        <br/>
+                        <t t-esc="o.company_id.country_id.name"/>
+                        <br/>
+                     </span>
+                  </td>
+                  <td style="width: 40%; padding: 10px; text-align: right; vertical-align: middle;border-right:hidden;">
+                     <span style="font-size: 14px;">
+                        Tel: 
+                        <t t-esc="o.company_id.phone"/>
+                        <br/>
+                        Website: 
+                        <t t-esc="o.company_id.website"/>
+                        <br/>
+                        Email: 
+                        <t t-esc="o.company_id.email"/>
+                     </span>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </div>
+		<div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+			 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+			 t-att-data-oe-lang="o and o.env.context.get('lang')">
+			<t t-call="web.address_layout"/>
+			<t t-out="0"/>
+		</div>
+		<div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+		</div>
+	</template>
+
+	<template id="report_purchase_order">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="purchase_report.external_layout_purchase_report">
+					<style>
+						.border th , .border td {
+							border: 1px solid black;
+						}
+
+						.border-right th , .border-right td {
+							border-right: 1px solid black;
+						}
+						
+						.border-top th , .border-top td {
+							border-top: 1px solid black;
+						}
+
+						table {
+ 						 	border-collapse: collapse;
+						}
+
+						* {
+							font-family: "Times New Roman", Times, serif;
+						}
+					</style>
+					<div class="page" style="border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;padding: 0px;">
+						<!-- <div class="row"> -->
+							<!-- <div class="col-9">
+								<div class="row">
+									<div class="col-12">
+										<h1 style="font-wight: 900;"> GUJARAT  FREIGHT TOOLS</h1>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12" style="background-color:#088F8F;color: white;padding: 5px;font-size: 16px;">
+										<b> Manufacturing &amp; Supply Of Precision Press Tool &amp; Room Component </b>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6" style="text-align:left;">
+										<span t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+									</div>
+									<div class="col-6" style="text-align:right;">
+										<span>Tel:</span>079-25820309<br/>
+										<span>Web:</span>www.gftools.com<br/>
+										<span>Email</span>info@gftools.com
+									</div>
+								</div>
+							</div>
+							<div class="col-3">
+								<img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="width:50%" alt="Logo"/>
+							</div> -->
+							<!-- <div class="col-12"> -->
+								<!-- <img src="/purchase_report/static/src/img/logo.png" style="width: 100%;"/> -->
+							<!-- </div> -->
+						<!-- </div> -->
+						<table class="table table-borderless" style="text-align: left;font-size: 12px;margin: 0px;">
+							<tr>
+								<th colspan="3">
+									<b style="font-size: 17px;"> VAT NO. : <t t-esc="o.company_id.vat"/> </b>
+								</th>
+								<th colspan="5" style="border-bottom: 1px solid black;">
+									<b style="font-size: 20px;color: darkblue;"> Purchase Order </b>
+								</th>
+							</tr>
+							<tr>
+								<th colspan="3" style="border: 1px solid black;">
+									<b>
+										Vendor Detail
+									</b>
+								</th>
+								<th colspan="1" rowspan="2">
+								</th>
+								<th colspan="2" rowspan="2">
+									Purchase Order No. :
+								</th>
+								<th rowspan="2">
+									<t t-esc="o.name"/>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<b> M/S </b>
+								</th>
+								<th colspan="2" style="border-right: 1px solid black;">
+									<t t-esc="o.partner_id.name"/>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Address
+								</th>
+								<th colspan="2" style="border-right: 1px solid black;">
+									<t t-if="o.partner_id.street">
+										<t t-esc="o.partner_id.street"/>, <t t-esc="o.partner_id.city"/>
+										<br/>
+										<t t-if="o.partner_id.state_id" t-esc="o.partner_id.state_id.name"/>,<t t-if="o.partner_id.country_id" t-esc="o.partner_id.country_id.name"/>  - <t t-esc="o.partner_id.zip"/>
+									</t>
+								</th>
+								<th colspan="1"></th>
+								<th colspan="2">Purchase Order Date</th>
+								<td><t t-if="o.date_approve" t-esc="o.date_approve.strftime('%d/%m/%Y')"/></td>
+							</tr>
+							<tr>
+								<th>PHONE</th>
+								<th colspan="2" style="border-right: 1px solid black;">
+									<t t-esc="o.partner_id.phone"/>
+								</th>
+								<th></th>
+								<th colspan="1"></th>
+								<th colspan="3"></th>
+							</tr>
+							<tr>
+								<th>VAT NO.</th>
+								<th colspan="2" style="border-right: 1px solid black;"><t t-esc="o.partner_id.vat"/></th>
+								<th></th>
+								<th colspan="1"></th>
+								<th colspan="3"></th>
+							</tr>
+							<!-- <tr>
+								<th>Place of Supply</th>
+								<th colspan="2" style="border-right: 1px solid black;">Gujarat ( 24 )</th>
+								<th>Transport ID</th>
+								<th colspan="2">522304</th>
+								<th colspan="2">Vehicle Number</th>
+								<th>GJ01KH2320</th>
+							</tr> -->
+							<tr>
+								<th colspan="8" style="border: 1px solid black;">
+									<br/>
+								</th>
+							</tr>
+							<tr class="border" style="text-align: center;white-space: nowrap;">
+								<th rowspan="2" style="width:8%;">Sr. No</th>
+								<th rowspan="2" style="width:40%;">Name of Product / Service</th>
+								<th rowspan="2" style="width:8%;">Qty</th>
+								<th rowspan="2" style="width:8%;">Rate</th>
+								<th rowspan="2">Taxable Value</th>
+								<th colspan="2">VAT</th>
+								<th rowspan="2">Total</th>
+							</tr>
+							<tr class="border" style="text-align: center;">
+								<th>%</th>
+								<th>Amount</th>
+							</tr>
+							<t t-set="count" t-value="1"/>
+							<t t-set="total_tax" t-value="0"/>
+							<t t-set="total_untaxamount" t-value="0"/>
+							<t t-foreach="o.order_line" t-as="line">
+								<t t-set="subtotal" t-value="line.product_qty * line.price_unit"/>
+								<t t-set="total_untaxamount" t-value="total_untaxamount + subtotal"/>
+								<t t-set="total_tax" t-value="(subtotal * sum(line.taxes_id.mapped('amount')) / 100) + total_tax"/>
+								<tr class="border-right">
+									<td>
+										<t t-esc="count"/>
+										<t t-set="count" t-value="count + 1"/>
+									</td>
+									<td>
+										<t t-esc="line.product_id.name"/>
+									</td>
+									<td>
+										<t t-esc="line.product_qty"/>
+									</td>
+									<td>
+										<t t-esc="'{:,.2f}'.format(line.price_unit)"/>
+									</td>								
+									<td style="text-align: right;">
+										<t t-esc="'{:,.2f}'.format(subtotal)" />
+									</td>
+									<td style="text-align: right;">
+										<t t-if="line.taxes_id" t-esc="'{:,.2f}'.format(sum(line.taxes_id.mapped('amount')))"/>
+									</td>
+									<td style="text-align: right;">
+										<t t-if="line.taxes_id" t-esc="'{:,.2f}'.format(subtotal * sum(line.taxes_id.mapped('amount')) / 100)"/>
+									</td>
+									<td style="text-align: right;">
+										<t t-esc="'{:,.2f}'.format(line.price_subtotal)"/>
+									</td>								
+								</tr>
+							</t>
+							<tr class="border-top border-right" style="text-align: right;">
+								<th colspan="2" style="text-align: right;">
+									<b> Total </b>
+								</th>
+								<th></th>
+								<th>
+									<t t-esc="'{:,.2f}'.format(sum(o.order_line.mapped('product_qty')))"/>
+								</th>
+								<th>
+									<t t-esc="'{:,.2f}'.format(total_untaxamount)"/>
+								</th>
+								<th></th>
+								<th>
+									<t t-esc="'{:,.2f}'.format(total_tax)"/>
+								</th>
+								<th>
+									<t t-esc="'{:,.2f}'.format(sum(o.order_line.mapped('price_subtotal')))"/>
+								</th>
+							</tr>
+							<tr class="border">
+								<th colspan="8">
+									<br/>
+								</th>
+							</tr>
+							<tr>
+								<th colspan="4" style="border: 1px solid black;text-align: center;">
+									Total in words
+								</th>
+								<th colspan="3" style="border-bottom: 1px solid black;">
+									Total Amount
+								</th>
+								<th style="border-bottom: 1px solid black;text-align: right;">
+									<t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/>
+								</th>
+							</tr>
+							<tr>
+								<td colspan="4" style="border: 1px solid black;text-align: center;">
+									<t t-esc="o.company_id.currency_id.amount_to_text(o.amount_total)"/>
+								</td>
+								<th colspan="3" style="border-bottom: 1px solid black;">
+									Total Vat
+								</th>
+								<th style="border-bottom: 1px solid black;text-align: right;">
+									<t t-esc="'{:,.2f}'.format(o.amount_tax)"/>
+								</th>
+							</tr>
+							
+							<tr>
+								<th colspan="4" style="border: 1px solid black;text-align: center;">
+									Terms and Conditions
+								</th>
+								<th colspan="3" style="border-bottom: 1px solid black;">
+									Total
+								</th>
+								<th style="border-bottom: 1px solid black;text-align: right;">
+									<span style="font-size: 14px;">
+										<t t-esc="'{:,.2f}'.format(o.amount_total)"/>
+									</span>
+								</th>
+							</tr>
+							<tr>
+								<th colspan="4" rowspan="3" style="border-right: 1px solid black;">
+									<span t-field="o.extra_notes" />
+								</th>
+								<th colspan="4" style="border: 1px solid black;text-align: center;">
+									<span style="font-size: 10px;"> Certified that the particulars given above are true and correct.</span>
+									<br/>
+									For bahr al ahlam food stuff trading
+								</th>
+							</tr>
+							<!-- <tr>
+								<th colspan="3" style="border: 1px solid black;">
+									GST Payable on Reverse Charge
+								</th>
+								<th style="border: 1px solid black;text-align: right;">
+									N.A.
+								</th>
+							</tr> -->
+							<!-- <tr>
+								<th colspan="4" style="border: 1px solid black;text-align: center;">
+									<span style="font-size: 10px;"> Certified that the particulars given above are true and correct.</span>
+									<br/>
+									For bahr al ahlam food stuff trading
+								</th>
+							</tr> -->
+							<tr>
+								<th colspan="4" style="border: 1px solid black;">
+									<br/>
+									<br/>
+									<br/>
+									<br/>
+								</th>
+							</tr>
+							<tr>
+								<th colspan="4" style="border: 1px solid black;text-align: center;">
+									Authorised Signatory
+								</th>
+							</tr>
+						</table>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

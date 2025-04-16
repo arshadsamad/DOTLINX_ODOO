@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		
+	<template id="external_layout_delivery_order_report">
+		<style>
+			* {
+				font-family: "Times New Roman", Times, serif;
+			}
+		</style>		
+		<t t-if="not o" t-set="o" t-value="doc"/>
+		<t t-if="not company">
+			<!-- Multicompany -->
+			<t t-if="company_id">
+				<t t-set="company" t-value="company_id"/></t>
+			<t t-elif="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id.sudo()"/></t>
+			<t t-else="else">
+				<t t-set="company" t-value="res_company"/></t>
+		</t>
+		<t t-call="delivery_report.external_layout_standard_custom_delivery">
+			<t t-raw="0"/></t>
+	</template>
+	
+	<template id="external_layout_standard_custom_delivery">
+		<style>
+			* {
+				font-family: "Times New Roman", Times, serif;
+			}
+		</style>		
+		<div class="header">
+         <div style="width: 100%; border-collapse: collapse; border: 1px solid black; border-radius: 10px; overflow: hidden;">
+            <table style="width: 100%; border-spacing: 0;">
+               <tr>
+                  <td colspan="2" style="width: 80%; padding: 10px; text-align: left; vertical-align: middle;border-right:hidden;color:#35095e;font-size: 28px;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 24px;"></strong> -->
+                     <strong><t t-esc="o.company_id.name"/></strong>
+                  </td>
+                  <td rowspan="3" style="width: 20%; padding: 2px; text-align: center; vertical-align: middle;border-left:hidden;">
+                     <img t-if="o.company_id.logo"
+										t-attf-src="data:image/png;base64, #{o.company_id.logo}"
+										style="width: 100%;"
+										alt="Logo" />
+                  </td>
+               </tr>
+               <tr>
+                  <td colspan="2" style="width: 80%; padding: 10px; text-align: left; vertical-align: middle;background-color:#00a197;border-right:hidden;border-bottom:hidden;border-top:hidden;color:#FFFFFF;font-size: 18px;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 18px;"></strong> -->
+                     <!-- <strong>FOODSTUFF TRADING LLC</strong> -->
+                  </td>
+               </tr>
+               <tr>
+                  <td style="width: 40%; padding: 10px; text-align: left; vertical-align: middle;border-right:hidden;">
+                     <!-- <strong t-field="o.company_id.name" style="font-size: 18px;"></strong><br/> -->
+                     <span style="font-size: 14px;">
+                        <t t-esc="o.company_id.street"/>
+                        <t t-if="o.company_id.street2">
+                           , 
+                           <t t-esc="o.company_id.street2"/>
+                        </t>
+                        <br/>
+                        <t t-esc="o.company_id.city"/>
+                        , 
+                        <t t-esc="o.company_id.state_id.name"/>
+                        , 
+                        <t t-esc="o.company_id.zip"/>
+                        <br/>
+                        <t t-esc="o.company_id.country_id.name"/>
+                        <br/>
+                     </span>
+                  </td>
+                  <td style="width: 40%; padding: 10px; text-align: right; vertical-align: middle;border-right:hidden;">
+                     <span style="font-size: 14px;">
+                        Tel: 
+                        <t t-esc="o.company_id.phone"/>
+                        <br/>
+                        Website: 
+                        <t t-esc="o.company_id.website"/>
+                        <br/>
+                        Email: 
+                        <t t-esc="o.company_id.email"/>
+                     </span>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </div>
+		<div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+			t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+			t-att-data-oe-lang="o and o.env.context.get('lang')">
+			<t t-call="web.address_layout"/>
+			<t t-raw="0"/>
+		</div>
+		<div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+			<t t-if="not o" t-set="o" t-value="doc"/>
+			<div class="last-page  text-muted oe_mt8 oe_mb8" style="font-size:15px;">
+				<div class="row" style="padding-top:50px;">
+					<div class="col-4" style="text-align:center;">
+						<p ><span t-field="o.user_id.name"/>
+							<br/>
+							<strong style=" white-space: nowrap;">
+							Prepared By</strong><br/>
+							<strong>
+								<t t-if="o.create_date" t-esc="o.create_date.strftime('%d/%m/%Y')"/>
+							</strong>
+						</p>
+					</div>
+					<div class="col-4" style="text-align:center;">
+						<p><span t-field="o.user_id.name"/>
+							<br/>
+							<strong>Authorized</strong>
+							<br/>
+							<strong>
+								<t t-if="o.create_date" t-esc="o.create_date.strftime('%d/%m/%Y')"/>
+							</strong>
+						</p>
+					</div>
+					<div class="col-4" style="text-align:center;">
+						<p></p>
+						<br/>
+						<strong>Review By Customer</strong>
+						<br/>
+						<strong>(Name,Signature,Mobile)</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="report_delivery_order">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="delivery_report.external_layout_delivery_order_report">
+					<style>
+						* {
+							font-family: "Times New Roman", Times, serif;
+						}
+					</style>					
+					<div class="page">
+						<div class="row" style="padding-top: 70px;">
+							<div class="col-12" style="text-align:center;">
+								<b>
+									DELIVERY NOTE
+								</b>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12" style="text-align:right;">
+								<b>
+									Customer Copy
+								</b>
+							</div>
+						</div>
+						<div>
+							<div class="row" style="padding-top:30px;">
+								<div class="col-6">
+									<table class="table table-borderless" width="100%" height="60%">
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 30%;">
+												Bill To
+											</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<!-- <tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Code</td>
+											<td></td>
+										</tr> -->
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Name</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">TRN No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;width:50px;">
+											<td style="background-color:lightgrey;">Address</td>
+											<td>
+												<span t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<br/>
+											</td>
+											<td>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 20%;">	Phone
+											</td>
+											<td>
+												<t t-esc="o.partner_id.phone"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Fax
+											</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Email
+											</td>
+											<td>
+												<t t-esc="o.partner_id.email  "/>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table table-borderless" style="margin-left:70px;
+									" width="120%" height="60%" >
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 30%;">Date</td>
+											<td>
+												<t t-esc="o.scheduled_date"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">DO No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SO No</td>
+											<td>
+												<t t-esc="o.origin"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SalesMan</td>
+											<td></td>
+										</tr>
+										<!-- <tr style="height:30px;">
+											<td style="background-color:lightgrey;">Manual Do</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Del Location</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Sale Location</td>
+											<td></td>
+										</tr> -->
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row" style="padding-top:30px;">
+							<table class="table table-borderless" style="font-family:Arial;margin-top:5px;margin-bottom: 5px;width:100%;margin:0;padding:0;margin-top:10px;">
+								<thead>
+									<tr style="background-color:lightgrey;text-align: center;font-size: 14px;page-break-inside: avoid;border-top:1px solid black;border-bottom:1px solid black">
+										<th style="width:8%;height:10px;border:0;">Sr.No</th>
+										<th style="width:12%;height:10px;">Item Code</th>
+										<th style="width:35%;">Item Description</th>
+										<th style="width:10%;">Sub Loc</th>
+										<th style="width:7%;">Unit</th>
+										<th style="width:14%;">Qty</th>
+										<th style="width:14%;">Pcs</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-set="total" t-value="0"/>
+									<t t-set="count" t-value="0"/>
+									<t t-set="range_line" t-value="10 - len(o.move_ids_without_package)"/>
+									<t t-foreach="o.move_ids_without_package" t-as="line">
+										<t t-set="count" t-value="count + 1"/>
+										<tr style="font-size:12px;page-break-inside: avoid;border:0;">
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="count"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_id.default_code"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.name"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_uom_qty"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_uom.name"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.forecast_availability" t-options='{"widget": "float", "precision": 2}'/>
+											</td>
+											<td style="text-align: center;">
+												<t t-esc="line.quantity_done"/>
+											</td>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</div>
+						<!-- <div class="row" style="padding-top:50px;">
+							<div class="col-12" style="border:2px solid black;padding: 5px;">
+								<p>
+									<strong>
+										Return / Exchange of Materials will be entertained only within 14 days from the date of delivery
+										<br/>
+										Materials to be returned in original packing, unused and in resalable condition. Product with specific warranty clause are excluded
+										<br/>
+										Claims will be entertained if the material is used / Consumed.
+									</strong>
+								</p>
+							</div>
+						</div> -->
+						<div class="row">
+							<div class="col-12">
+								<br/><p>Note:</p><br/>
+								<span t-field="o.note" />
+							</div>
+						</div>
+						<!-- <div class="row" style="padding-top:30px;">
+							<table class="table table-borderless" style="border:1px solid black;">
+								<tr style="height:30px;">
+									<th style="border:1px solid black;" width="20%">Driver Name</th>
+									<th style="border:1px solid black;" width="20%">Vechicle Name</th>
+									<th style="border:1px solid black;" width="30%">Driver Mobile Number</th>
+									<th style="border:1px solid black;" width="20%">Transporter</th>
+									<th style="border:1px solid black;" width="10%">Route</th>
+								</tr>
+								<tr style="height:30px;">
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+								</tr>
+							</table>
+						</div> -->
+						<p style="page-break-before:always;"> </p>
+						<!-- OFFICE PAGE -->
+						<div class="row" style="padding-top: 80px;">
+							<div class="col-12" style="text-align:center;">
+								<b>
+									DELIVERY NOTE
+								</b>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12" style="text-align:right;">
+								<b>
+									Office Copy
+								</b>
+							</div>
+						</div>
+						<div>
+							<!-- <div class="row" style="padding-top:30px;">
+								<div class="col-6">
+									<table class="table table-borderless" width="100%" height="60%">
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 30%;" >Bill To</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Code</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Name</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">TRN No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;width:50px;">
+											<td style="background-color:lightgrey;">Address</td>
+											<td>
+												<span t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<br/>
+											</td>
+											<td>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 20%;">	Phone
+											</td>
+											<td>
+												<t t-esc="o.partner_id.phone"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Fax
+											</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Email
+											</td>
+											<td>
+												<t t-esc="o.partner_id.email  "/>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table table-borderless" style="margin-left:70px;
+									" width="120%" height="60%" >
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;" >Date</td>
+											<td>
+												<t t-esc="o.scheduled_date"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">DO No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SO No</td>
+											<td>
+												<t t-esc="o.origin"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SalesMan</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Manual Do</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Del Location</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Sale Location</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div> -->
+							<div class="row" style="padding-top:30px;">
+								<div class="col-6">
+									<table class="table table-borderless" width="100%" height="60%">
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 30%;">
+												Bill To
+											</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<!-- <tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Code</td>
+											<td></td>
+										</tr> -->
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Cust Name</td>
+											<td>
+												<t t-esc="o.partner_id.name"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">TRN No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;width:50px;">
+											<td style="background-color:lightgrey;">Address</td>
+											<td>
+												<span t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<br/>
+											</td>
+											<td>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 20%;">	Phone
+											</td>
+											<td>
+												<t t-esc="o.partner_id.phone"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Fax
+											</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">
+												Email
+											</td>
+											<td>
+												<t t-esc="o.partner_id.email  "/>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table table-borderless" style="margin-left:70px;
+									" width="120%" height="60%" >
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;padding-top:10px;width: 30%;">Date</td>
+											<td>
+												<t t-esc="o.scheduled_date"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">DO No</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SO No</td>
+											<td>
+												<t t-esc="o.origin"/>
+											</td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">SalesMan</td>
+											<td></td>
+										</tr>
+										<!-- <tr style="height:30px;">
+											<td style="background-color:lightgrey;">Manual Do</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Del Location</td>
+											<td></td>
+										</tr>
+										<tr style="height:30px;">
+											<td style="background-color:lightgrey;">Sale Location</td>
+											<td></td>
+										</tr> -->
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row" style="padding-top:30px;">
+							<table class="table table-borderless" style="font-family:Arial;margin-top:5px;margin-bottom: 5px;width:100%;margin:0;padding:0;margin-top:10px;">
+								<thead>
+									<tr style="background-color:lightgrey;text-align: center;font-size: 14px;page-break-inside: avoid;border-top:1px solid black;border-bottom:1px solid black">
+										<th style="width:8%;height:10px;border:0;">Sr.No</th>
+										<th style="width:12%;height:10px;">Item Code</th>
+										<th style="width:35%;">Item Description</th>
+										<th style="width:10%;">Sub Loc</th>
+										<th style="width:7%;">Unit</th>
+										<th style="width:14%;">Qty</th>
+										<th style="width:14%;">Pcs</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-set="total" t-value="0"/>
+									<t t-set="count" t-value="0"/>
+									<t t-set="range_line" t-value="10 - len(o.move_ids_without_package)"/>
+									<t t-foreach="o.move_ids_without_package" t-as="line">
+										<t t-set="count" t-value="count + 1"/>
+										<tr style="font-size:12px;page-break-inside: avoid;border:0;">
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="count"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_id.default_code"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.name"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_uom_qty"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.product_uom.name"/>
+											</td>
+											<td style="text-align: center;font-size:14px;">
+												<t t-esc="line.forecast_availability" t-options='{"widget": "float", "precision": 2}'/>
+											</td>
+											<td style="text-align: center;">
+												<t t-esc="line.quantity_done"/>
+											</td>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</div>
+						<!-- <div class="row" style="padding-top:50px;">
+							<div class="col-12" style="border:2px solid black;padding: 5px;">
+								<p>
+									<strong>
+										Return / Exchange of Materials will be entertained only within 14 days from the date of delivery
+										<br/>
+										Materials to be returned in original packing, unused and in resalable condition. Product with specific warranty clause are excluded
+										<br/>
+										Claims will be entertained if the material is used / Consumed.
+									</strong>
+								</p>
+							</div>
+						</div> -->
+						<div class="row">
+							<div class="col-12">
+								<br/><p>Note:</p><br/>
+								<span t-field="o.note" />
+							</div>
+						</div>
+						<!-- <div class="row" style="padding-top:30px;">
+							<table class="table table-borderless" style="border:1px solid black;">
+								<tr style="height:30px;">
+									<th style="border: 1px solid black;" width="20%">Driver Name</th>
+									<th style="border: 1px solid black;" width="20%">Vechicle Name</th>
+									<th style="border: 1px solid black;" width="30%">Driver Mobile Number</th>
+									<th style="border: 1px solid black;" width="20%">Transporter</th>
+									<th style="border: 1px solid black;" width="10%">Route</th>
+								</tr>
+								<tr style="height:30px;">
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+									<td style="border:1px solid black;"></td>
+								</tr>
+							</table>
+						</div> -->
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+
+</odoo>
