@@ -321,7 +321,7 @@ $hide_product_nav = isset($hide_product_nav) ? $hide_product_nav : false;
                                 <?php if ($this->ion_auth->logged_in()) { ?>
                                 <a href="<?= base_url('my-account/favorites') ?>" target="_blank" class="nav-link d-flex" aria-label="favorites">
                                     <i class="uil uil-heart"></i>
-                                    <span class="badge badge-cart bg-primary" id='cart-count'><?= (count($this->cart_model->get_favorites_count($this->session->userdata('user_id'))) != 0 ? count($this->cart_model->get_favorites_count($this->session->userdata('user_id'))) : '0'); ?></span>
+                                    <span class="badge badge-cart bg-primary"><?= (count($this->cart_model->get_favorites_count($this->session->userdata('user_id'))) != 0 ? count($this->cart_model->get_favorites_count($this->session->userdata('user_id'))) : '0'); ?></span>
                                 </a>
                                 <?php } else { ?>
                                 <a href="#" class="nav-link" aria-label="favorites" data-bs-toggle="modal" data-bs-target="#modal-signin">
