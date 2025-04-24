@@ -1,14 +1,15 @@
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
 </aside>
-
+<!-- Bootstrap 4 -->
 <!-- google translate library -->
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- Bootstrap 4 -->
+
 <script src="<?= base_url('assets/admin/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?= base_url('assets/admin/jquery-ui/jquery-ui.min.js') ?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
 <script>
 $.widget.bridge('uibutton', $.ui.button)
 </script>
@@ -30,10 +31,6 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?= base_url('assets/admin/js/daterangepicker.js') ?>"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="<?= base_url('assets/admin/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
-<!-- Summernote -->
-<script src="<?= base_url('assets/admin/summernote/summernote-bs4.min.js') ?>"></script>
-<!-- Tinymce -->
-<script src="<?= base_url('assets/admin/js/tinymce.min.js') ?>"></script>
 <!-- Toastr -->
 <script src="<?= base_url('assets/admin/js/iziToast.min.js') ?>"></script>
 <!-- Select -->
@@ -46,6 +43,8 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?= base_url('assets/admin/js/bootstrap-switch.min.js') ?>"></script>
 <!-- Bootstrap Table -->
 <script src="<?= base_url('assets/admin/js/bootstrap-table.min.js') ?>"></script>
+<script src="<?= base_url('assets/admin/js/tableExport.js') ?>"></script>
+<script src="<?= base_url('assets/admin/js//bootstrap-table-export.min.js"') ?>"></script>
 <!-- Jquery Fancybox -->
 <script src="<?= base_url('assets/admin/js/jquery.fancybox.min.js') ?>"></script>
 <!-- Sweeta Alert 2 -->
@@ -59,14 +58,22 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- Tool Tip -->
 <script src="<?= base_url('assets/admin/js/tooltip.js') ?>"></script>
 <!-- Loader Js -->
+<script type="text/javascript" src="<?= base_url('assets/admin/js/loader.js') ?>"></script>
+<!-- Dropzone -->
+<script type="text/javascript" src="<?= base_url('assets/admin/js/dropzone.js') ?>"></script>
 <!-- Sortable.JS -->
 <script type="text/javascript" src="<?= base_url('assets/admin/js/sortable.js') ?>"></script>
 <!-- Sortable.min.js -->
 <script type="text/javascript" src="<?= base_url('assets/admin/js/jquery-sortable.js') ?>"></script>
 
-<script type="text/javascript" src="<?= base_url('assets/admin/js/loader.js') ?>"></script>
-<!-- Dropzone -->
-<script type="text/javascript" src="<?= base_url('assets/admin/js/dropzone.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/admin/js/tagify.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/admin/js/jquery.validate.min.js') ?>"></script>
+<!-- Markdown -->
+<script type="text/javascript" src="<?= base_url('assets/admin/js/Markdown.Converter.js'); ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/admin/js/Markdown.Sanitizer.js'); ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/admin/js/Markdown.Editor.js'); ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/admin/js/stisla.js'); ?>"></script>
+
 <!-- Firebase.js -->
 <script type="text/javascript" src="<?= base_url('assets/admin/js/firebase-app.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/admin/js/firebase-auth.js') ?>"></script>
@@ -77,14 +84,23 @@ $.widget.bridge('uibutton', $.ui.button)
 <script type="text/javascript" src="<?= base_url('assets/admin/js/lightbox.js') ?>"></script>
 <!-- Custom -->
 <script src="<?= base_url('assets/admin/custom/custom.js') ?>"></script>
+<script src="<?= base_url('assets/admin/custom/pos.js') ?>"></script>
 <!-- Demo -->
 <script src="<?= base_url('assets/admin/dist/js/demo.js') ?>"></script>
 
+<?php if ($this->session->flashdata('message')) { ?>
+<script>
+Swal.fire('<?= $this->session->flashdata('message_type') ?>', "<?= $this->session->flashdata('message') ?>", '<?= $this->session->flashdata('message_type') ?>');
+</script>
+<?php } ?>
 
-<?php if ($this->session->flashdata('authorize_flag')) {
-?>
+
+<?php
+if ($this->session->flashdata('authorize_flag')) { ?>
 <script>
 Swal.fire('Warning', "<?= $this->session->flashdata('authorize_flag') ?>", 'warning');
 </script>
-<?php
-} ?>
+<?php }
+$this->session->set_flashdata('authorize_flag', "");
+
+?>
