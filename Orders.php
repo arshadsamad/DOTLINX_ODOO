@@ -624,6 +624,15 @@ class Orders extends CI_Controller
                 $order_itam_ids = [];
                 if ($_POST['status'] == 'cancelled' || $_POST['status'] == 'returned') {
                     $order_itam_ids = $_POST['order_item_id'];
+                    if (empty($order_itam_ids)) {
+                        $this->response['error'] = true;
+                        $this->response['message'] = 'Please select atleast one item to update the status';
+                        $this->response['data'] = array();
+                        $this->response['csrfName'] = $this->security->get_csrf_token_name();
+                        $this->response['csrfHash'] = $this->security->get_csrf_hash();
+                        print_r(json_encode($this->response));
+                        return false;
+                    }
                 } else {
                     foreach ($_POST['seller_id'] as $sellerId) {
                         $order_itam_id = fetch_details('order_items', ['order_id' => $_POST['order_id'], 'seller_id' => $sellerId, 'active_status !=' => 'cancelled'], 'id');
@@ -634,7 +643,7 @@ class Orders extends CI_Controller
                 }
                 if (empty($order_itam_ids)) {
                     $this->response['error'] = true;
-                    $this->response['message'] = 'You can not assign delivery boy of cancelled order.';
+                    $this->response['message'] = 'You can not assign delivery boy or update the status of cancelled order.';
                     $this->response['data'] = array();
                     $this->response['csrfName'] = $this->security->get_csrf_token_name();
                     $this->response['csrfHash'] = $this->security->get_csrf_hash();
