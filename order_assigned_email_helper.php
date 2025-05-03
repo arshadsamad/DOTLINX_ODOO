@@ -113,7 +113,7 @@ function send_order_deliveryman_assigned_to_seller_email($order_id, $delivery_bo
                 'order' => $order,
                 'delivery_man' => $delivery_man,
                 'assigned_date' => $order['date_modified'],
-                'items' => $order['items'],
+                'items' => array_filter($order['items'], fn($item) => $item['seller_id'] == $seller_id),
                 'seller' => $seller
             ];
 
