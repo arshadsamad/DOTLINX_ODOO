@@ -54,33 +54,31 @@ function send_order_cancellation_seller_email($order_id) {
     $ci =&get_instance();
     $order = fetch_details('orders', ['id' => $order_id])[0];
     $customer = fetch_details('users', ['id' => $order['user_id']])[0];
-
     $order['items'] = fetch_details('order_items', ['order_id' => $order['id']]);
-    $sellers = array();
-    foreach ($order['items'] as $order_item) {
-        array_push($sellers, $order_item['seller_id']);
-    }
-
-    $seller_ids = array_unique($sellers);
+    $seller_ids = array_unique(array_column($order_items, 'seller_id'));
     $order['customer'] = $customer;
     $customer_name = $order['customer']['username'];
     $subject = 'Order Cancellation Notification';
     $order_link = base_url('seller/orders/edit_orders?edit_id=' . $order['id'] );
     foreach ($seller_ids as $seller_id) {
         $seller = fetch_details('users', ['id' => $seller_id])[0];
-        $to = $seller['email'];
-        $seller_name = $seller['username'];
-        $data = array(
-            'order_id' => $order['id'],
-            'customer_name' => $customer_name,
-            'ordered_date' => $order['date_added'],
-            'items' => array_filter($order['items'], fn($item) => $item['seller_id'] == $seller_id),
-            'order_link' => $order_link,
-            'seller_name' => $seller_name,
-            'payment_status' => $order['payment_status'],
-        );
-        return send_mail($to, $subject, $ci->load->view('admin/pages/view/order_item_cancelled_email_to_seller', $data, TRUE));
+        if (isset($seller['email']) && !empty($seller['email'])) {
+            $to = $seller['email'];
+            $seller_name = $seller['username'];
+            $data = array(
+                'order_id' => $order['id'],
+                'customer_name' => $customer_name,
+                'ordered_date' => $order['date_added'],
+                'items' => array_filter($order['items'], fn($item) => $item['seller_id'] == $seller_id),
+                'order_link' => $order_link,
+                'seller_name' => $seller_name,
+                'payment_status' => $order['payment_status'],
+            );
+            send_mail($to, $subject, $ci->load->view('admin/pages/view/order_item_cancelled_email_to_seller', $data, TRUE));
+        }
     }
+
+    return ['error' => false, 'message' => 'Emails sent to all sellers.'];
 }
 
 function send_order_cancellation_admin_email($order_id) {
@@ -119,7 +117,8 @@ function send_order_cancellation_admin_email($order_id) {
         //$to = $web_settings['support_email'];
         $to = $system_user['email'];
 
-        return send_mail($to, $subject, $ci->load->view('admin/pages/view/order_cancellation_email_to_admin', $message, TRUE));
+        send_mail($to, $subject, $ci->load->view('admin/pages/view/order_cancellation_email_to_admin', $message, TRUE));
     }
+    return ['error' => false, 'message' => 'Emails sent to all admins.'];
 }
 ?>

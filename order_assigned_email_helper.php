@@ -96,18 +96,13 @@ function send_order_deliveryman_assigned_to_seller_email($order_id, $delivery_bo
     $order_items = fetch_details('order_items', ['order_id' => $order['id']]);
     $customer = fetch_details('users', ['id' => $order['user_id']])[0];
     $sellers = array_unique(array_column($order_items, 'seller_id'));
-
     foreach ($sellers as $seller_id) {
         $seller = fetch_details('users', ['id' => $seller_id])[0];
-
         if (isset($seller['email']) && !empty($seller['email'])) {
             $to = $seller['email'];
             $subject = 'Order Assigned to Delivery Man';
-
             $delivery_man = fetch_details('users', ['id' => $delivery_boy_id])[0];
-
             $order['items'] = fetch_details('order_items', ['order_id' => $order['id']]);
-
             $data = [
                 'customer' => $customer,
                 'order' => $order,
@@ -116,10 +111,7 @@ function send_order_deliveryman_assigned_to_seller_email($order_id, $delivery_bo
                 'items' => array_filter($order['items'], fn($item) => $item['seller_id'] == $seller_id),
                 'seller' => $seller
             ];
-
             send_mail($to, $subject, $ci->load->view('admin/pages/view/order_delivery_boy_assigned_email_to_seller', $data, true));
-        } else {
-            return ['error' => true, 'message' => 'Seller email not found.'];
         }
     }
     return ['error' => false, 'message' => 'Emails sent to all sellers.'];
