@@ -55,7 +55,7 @@ function send_order_cancellation_seller_email($order_id) {
     $order = fetch_details('orders', ['id' => $order_id])[0];
     $customer = fetch_details('users', ['id' => $order['user_id']])[0];
     $order['items'] = fetch_details('order_items', ['order_id' => $order['id']]);
-    $seller_ids = array_unique(array_column($order_items, 'seller_id'));
+    $seller_ids = array_unique(array_column($order['items'], 'seller_id'));
     $order['customer'] = $customer;
     $customer_name = $order['customer']['username'];
     $subject = 'Order Cancellation Notification';
