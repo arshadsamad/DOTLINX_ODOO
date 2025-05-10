@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <record id="group_assign_sales_credit_limit" model="res.groups">
-        <field name="name">Assign Sales Credit Limit</field>
-    </record>
-</odoo>
