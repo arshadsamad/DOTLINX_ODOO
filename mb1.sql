@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2025 at 09:02 AM
+-- Generation Time: May 10, 2025 at 12:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `movingbazaar_new`
+-- Database: `mb1`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +27,6 @@ SET time_zone = "+00:00";
 -- Table structure for table `addresses`
 --
 
-DROP TABLE IF EXISTS `addresses`;
 CREATE TABLE `addresses` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -74,7 +73,6 @@ INSERT INTO `addresses` (`id`, `user_id`, `name`, `type`, `mobile`, `alternate_m
 -- Table structure for table `areas`
 --
 
-DROP TABLE IF EXISTS `areas`;
 CREATE TABLE `areas` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -90,7 +88,6 @@ CREATE TABLE `areas` (
 -- Table structure for table `attributes`
 --
 
-DROP TABLE IF EXISTS `attributes`;
 CREATE TABLE `attributes` (
   `id` int(11) NOT NULL,
   `attribute_set_id` int(11) NOT NULL,
@@ -154,7 +151,6 @@ INSERT INTO `attributes` (`id`, `attribute_set_id`, `name`, `type`, `date_create
 -- Table structure for table `attribute_set`
 --
 
-DROP TABLE IF EXISTS `attribute_set`;
 CREATE TABLE `attribute_set` (
   `id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL,
@@ -174,7 +170,6 @@ INSERT INTO `attribute_set` (`id`, `name`, `status`) VALUES
 -- Table structure for table `attribute_values`
 --
 
-DROP TABLE IF EXISTS `attribute_values`;
 CREATE TABLE `attribute_values` (
   `id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
@@ -292,7 +287,6 @@ INSERT INTO `attribute_values` (`id`, `attribute_id`, `filterable`, `value`, `sw
 -- Table structure for table `blogs`
 --
 
-DROP TABLE IF EXISTS `blogs`;
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
@@ -310,7 +304,6 @@ CREATE TABLE `blogs` (
 -- Table structure for table `blog_categories`
 --
 
-DROP TABLE IF EXISTS `blog_categories`;
 CREATE TABLE `blog_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(256) DEFAULT NULL,
@@ -326,7 +319,6 @@ CREATE TABLE `blog_categories` (
 -- Table structure for table `brands`
 --
 
-DROP TABLE IF EXISTS `brands`;
 CREATE TABLE `brands` (
   `id` int(11) NOT NULL,
   `name` varchar(256) DEFAULT NULL,
@@ -359,7 +351,6 @@ INSERT INTO `brands` (`id`, `name`, `slug`, `image`, `status`) VALUES
 -- Table structure for table `cart`
 --
 
-DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -376,7 +367,6 @@ CREATE TABLE `cart` (
 -- Table structure for table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL,
@@ -433,7 +423,6 @@ INSERT INTO `categories` (`id`, `name`, `parent_id`, `slug`, `image`, `banner`, 
 -- Table structure for table `chat_media`
 --
 
-DROP TABLE IF EXISTS `chat_media`;
 CREATE TABLE `chat_media` (
   `id` int(11) NOT NULL,
   `message_id` int(11) NOT NULL,
@@ -451,7 +440,6 @@ CREATE TABLE `chat_media` (
 -- Table structure for table `cities`
 --
 
-DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL
@@ -491,7 +479,6 @@ INSERT INTO `cities` (`id`, `name`) VALUES
 -- Table structure for table `client_api_keys`
 --
 
-DROP TABLE IF EXISTS `client_api_keys`;
 CREATE TABLE `client_api_keys` (
   `id` int(11) NOT NULL,
   `name` mediumtext DEFAULT NULL,
@@ -512,7 +499,6 @@ INSERT INTO `client_api_keys` (`id`, `name`, `secret`, `status`) VALUES
 -- Table structure for table `countries`
 --
 
-DROP TABLE IF EXISTS `countries`;
 CREATE TABLE `countries` (
   `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -805,7 +791,6 @@ INSERT INTO `countries` (`id`, `name`, `iso3`, `numeric_code`, `iso2`, `phonecod
 -- Table structure for table `custom_notifications`
 --
 
-DROP TABLE IF EXISTS `custom_notifications`;
 CREATE TABLE `custom_notifications` (
   `id` int(11) NOT NULL,
   `title` varchar(2048) DEFAULT NULL,
@@ -827,7 +812,6 @@ INSERT INTO `custom_notifications` (`id`, `title`, `message`, `type`, `date_sent
 -- Table structure for table `custom_sms`
 --
 
-DROP TABLE IF EXISTS `custom_sms`;
 CREATE TABLE `custom_sms` (
   `id` int(11) NOT NULL,
   `title` varchar(2048) NOT NULL,
@@ -862,7 +846,6 @@ INSERT INTO `custom_sms` (`id`, `title`, `message`, `type`, `date_sent`) VALUES
 -- Table structure for table `delivery_boy_notifications`
 --
 
-DROP TABLE IF EXISTS `delivery_boy_notifications`;
 CREATE TABLE `delivery_boy_notifications` (
   `id` int(11) NOT NULL,
   `delivery_boy_id` int(11) NOT NULL,
@@ -879,7 +862,6 @@ CREATE TABLE `delivery_boy_notifications` (
 -- Table structure for table `digital_orders_mails`
 --
 
-DROP TABLE IF EXISTS `digital_orders_mails`;
 CREATE TABLE `digital_orders_mails` (
   `id` int(11) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
@@ -896,7 +878,6 @@ CREATE TABLE `digital_orders_mails` (
 -- Table structure for table `faqs`
 --
 
-DROP TABLE IF EXISTS `faqs`;
 CREATE TABLE `faqs` (
   `id` int(11) NOT NULL,
   `question` mediumtext DEFAULT NULL,
@@ -910,7 +891,6 @@ CREATE TABLE `faqs` (
 -- Table structure for table `favorites`
 --
 
-DROP TABLE IF EXISTS `favorites`;
 CREATE TABLE `favorites` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -923,7 +903,6 @@ CREATE TABLE `favorites` (
 -- Table structure for table `fund_transfers`
 --
 
-DROP TABLE IF EXISTS `fund_transfers`;
 CREATE TABLE `fund_transfers` (
   `id` int(11) NOT NULL,
   `delivery_boy_id` int(11) NOT NULL,
@@ -941,7 +920,6 @@ CREATE TABLE `fund_transfers` (
 -- Table structure for table `groups`
 --
 
-DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
   `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(20) NOT NULL,
@@ -964,7 +942,6 @@ INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 -- Table structure for table `languages`
 --
 
-DROP TABLE IF EXISTS `languages`;
 CREATE TABLE `languages` (
   `id` int(11) NOT NULL,
   `language` varchar(128) DEFAULT NULL,
@@ -986,7 +963,6 @@ INSERT INTO `languages` (`id`, `language`, `code`, `is_rtl`, `created_on`) VALUE
 -- Table structure for table `login_attempts`
 --
 
-DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE `login_attempts` (
   `id` int(10) UNSIGNED NOT NULL,
   `ip_address` varchar(45) NOT NULL,
@@ -1000,7 +976,6 @@ CREATE TABLE `login_attempts` (
 -- Table structure for table `markets`
 --
 
-DROP TABLE IF EXISTS `markets`;
 CREATE TABLE `markets` (
   `id` int(11) NOT NULL,
   `name` varchar(256) DEFAULT NULL,
@@ -1028,7 +1003,6 @@ INSERT INTO `markets` (`id`, `name`, `slug`, `image`, `is_default`, `status`) VA
 -- Table structure for table `media`
 --
 
-DROP TABLE IF EXISTS `media`;
 CREATE TABLE `media` (
   `id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL DEFAULT 0,
@@ -1768,7 +1742,6 @@ INSERT INTO `media` (`id`, `seller_id`, `title`, `name`, `extension`, `type`, `s
 -- Table structure for table `messages`
 --
 
-DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `from_id` int(11) NOT NULL,
@@ -1786,7 +1759,6 @@ CREATE TABLE `messages` (
 -- Table structure for table `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `version` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1804,7 +1776,6 @@ INSERT INTO `migrations` (`version`) VALUES
 -- Table structure for table `notifications`
 --
 
-DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `title` varchar(128) NOT NULL,
@@ -1833,7 +1804,6 @@ INSERT INTO `notifications` (`id`, `title`, `message`, `type`, `type_id`, `send_
 -- Table structure for table `offers`
 --
 
-DROP TABLE IF EXISTS `offers`;
 CREATE TABLE `offers` (
   `id` int(11) NOT NULL,
   `type` varchar(32) DEFAULT NULL,
@@ -1858,7 +1828,6 @@ INSERT INTO `offers` (`id`, `type`, `type_id`, `link`, `image`, `date_added`) VA
 -- Table structure for table `orders`
 --
 
-DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -1895,7 +1864,6 @@ CREATE TABLE `orders` (
 -- Table structure for table `order_bank_transfer`
 --
 
-DROP TABLE IF EXISTS `order_bank_transfer`;
 CREATE TABLE `order_bank_transfer` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL DEFAULT 0,
@@ -1910,7 +1878,6 @@ CREATE TABLE `order_bank_transfer` (
 -- Table structure for table `order_charges`
 --
 
-DROP TABLE IF EXISTS `order_charges`;
 CREATE TABLE `order_charges` (
   `id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL,
@@ -1932,7 +1899,6 @@ CREATE TABLE `order_charges` (
 -- Table structure for table `order_items`
 --
 
-DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE `order_items` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -1968,7 +1934,6 @@ CREATE TABLE `order_items` (
 -- Table structure for table `order_tracking`
 --
 
-DROP TABLE IF EXISTS `order_tracking`;
 CREATE TABLE `order_tracking` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
@@ -2001,7 +1966,6 @@ CREATE TABLE `order_tracking` (
 -- Table structure for table `otps`
 --
 
-DROP TABLE IF EXISTS `otps`;
 CREATE TABLE `otps` (
   `id` int(11) NOT NULL,
   `mobile` varchar(20) NOT NULL,
@@ -2016,7 +1980,6 @@ CREATE TABLE `otps` (
 -- Table structure for table `payment_requests`
 --
 
-DROP TABLE IF EXISTS `payment_requests`;
 CREATE TABLE `payment_requests` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -2034,7 +1997,6 @@ CREATE TABLE `payment_requests` (
 -- Table structure for table `pickup_locations`
 --
 
-DROP TABLE IF EXISTS `pickup_locations`;
 CREATE TABLE `pickup_locations` (
   `id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL,
@@ -2069,7 +2031,6 @@ INSERT INTO `pickup_locations` (`id`, `seller_id`, `pickup_location`, `name`, `e
 -- Table structure for table `products`
 --
 
-DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `product_identity` varchar(50) DEFAULT NULL,
@@ -2558,7 +2519,6 @@ INSERT INTO `products` (`id`, `product_identity`, `category_id`, `seller_id`, `t
 -- Table structure for table `product_attributes`
 --
 
-DROP TABLE IF EXISTS `product_attributes`;
 CREATE TABLE `product_attributes` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -3001,7 +2961,6 @@ INSERT INTO `product_attributes` (`id`, `product_id`, `attribute_value_ids`, `da
 -- Table structure for table `product_faqs`
 --
 
-DROP TABLE IF EXISTS `product_faqs`;
 CREATE TABLE `product_faqs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -3020,7 +2979,6 @@ CREATE TABLE `product_faqs` (
 -- Table structure for table `product_rating`
 --
 
-DROP TABLE IF EXISTS `product_rating`;
 CREATE TABLE `product_rating` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -3037,7 +2995,6 @@ CREATE TABLE `product_rating` (
 -- Table structure for table `product_variants`
 --
 
-DROP TABLE IF EXISTS `product_variants`;
 CREATE TABLE `product_variants` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -3721,7 +3678,6 @@ INSERT INTO `product_variants` (`id`, `product_id`, `attribute_value_ids`, `attr
 -- Table structure for table `promo_codes`
 --
 
-DROP TABLE IF EXISTS `promo_codes`;
 CREATE TABLE `promo_codes` (
   `id` int(11) NOT NULL,
   `promo_code` varchar(28) NOT NULL,
@@ -3755,7 +3711,6 @@ INSERT INTO `promo_codes` (`id`, `promo_code`, `message`, `start_date`, `end_dat
 -- Table structure for table `return_requests`
 --
 
-DROP TABLE IF EXISTS `return_requests`;
 CREATE TABLE `return_requests` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -3774,7 +3729,6 @@ CREATE TABLE `return_requests` (
 -- Table structure for table `sections`
 --
 
-DROP TABLE IF EXISTS `sections`;
 CREATE TABLE `sections` (
   `id` int(11) NOT NULL,
   `title` varchar(512) NOT NULL,
@@ -3802,7 +3756,6 @@ INSERT INTO `sections` (`id`, `title`, `short_description`, `style`, `product_id
 -- Table structure for table `seller_commission`
 --
 
-DROP TABLE IF EXISTS `seller_commission`;
 CREATE TABLE `seller_commission` (
   `id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL DEFAULT 0,
@@ -3844,7 +3797,6 @@ INSERT INTO `seller_commission` (`id`, `seller_id`, `category_id`, `commission`,
 -- Table structure for table `seller_data`
 --
 
-DROP TABLE IF EXISTS `seller_data`;
 CREATE TABLE `seller_data` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -3892,7 +3844,6 @@ INSERT INTO `seller_data` (`id`, `user_id`, `slug`, `category_ids`, `store_name`
 -- Table structure for table `settings`
 --
 
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `id` int(11) NOT NULL,
   `variable` varchar(128) NOT NULL,
@@ -3942,7 +3893,6 @@ INSERT INTO `settings` (`id`, `variable`, `value`) VALUES
 -- Table structure for table `sliders`
 --
 
-DROP TABLE IF EXISTS `sliders`;
 CREATE TABLE `sliders` (
   `id` int(11) NOT NULL,
   `type` varchar(16) NOT NULL,
@@ -3966,7 +3916,6 @@ INSERT INTO `sliders` (`id`, `type`, `type_id`, `link`, `image`, `date_added`) V
 -- Table structure for table `states`
 --
 
-DROP TABLE IF EXISTS `states`;
 CREATE TABLE `states` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -3996,7 +3945,6 @@ INSERT INTO `states` (`id`, `name`, `parent_state_id`, `delivery_charge`) VALUES
 -- Table structure for table `system_notification`
 --
 
-DROP TABLE IF EXISTS `system_notification`;
 CREATE TABLE `system_notification` (
   `id` int(11) NOT NULL,
   `title` varchar(256) DEFAULT NULL,
@@ -4013,7 +3961,6 @@ CREATE TABLE `system_notification` (
 -- Table structure for table `taxes`
 --
 
-DROP TABLE IF EXISTS `taxes`;
 CREATE TABLE `taxes` (
   `id` int(11) NOT NULL,
   `title` mediumtext DEFAULT NULL,
@@ -4035,7 +3982,6 @@ INSERT INTO `taxes` (`id`, `title`, `percentage`, `status`) VALUES
 -- Table structure for table `themes`
 --
 
-DROP TABLE IF EXISTS `themes`;
 CREATE TABLE `themes` (
   `id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
@@ -4060,7 +4006,6 @@ INSERT INTO `themes` (`id`, `name`, `slug`, `image`, `is_default`, `status`, `cr
 -- Table structure for table `tickets`
 --
 
-DROP TABLE IF EXISTS `tickets`;
 CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
   `ticket_type_id` int(11) DEFAULT NULL,
@@ -4079,7 +4024,6 @@ CREATE TABLE `tickets` (
 -- Table structure for table `ticket_messages`
 --
 
-DROP TABLE IF EXISTS `ticket_messages`;
 CREATE TABLE `ticket_messages` (
   `id` int(11) NOT NULL,
   `user_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -4097,7 +4041,6 @@ CREATE TABLE `ticket_messages` (
 -- Table structure for table `ticket_types`
 --
 
-DROP TABLE IF EXISTS `ticket_types`;
 CREATE TABLE `ticket_types` (
   `id` int(11) NOT NULL,
   `title` text DEFAULT NULL,
@@ -4110,7 +4053,6 @@ CREATE TABLE `ticket_types` (
 -- Table structure for table `time_slots`
 --
 
-DROP TABLE IF EXISTS `time_slots`;
 CREATE TABLE `time_slots` (
   `id` int(11) NOT NULL,
   `title` varchar(256) NOT NULL,
@@ -4134,7 +4076,6 @@ INSERT INTO `time_slots` (`id`, `title`, `from_time`, `to_time`, `last_order_tim
 -- Table structure for table `transactions`
 --
 
-DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `transaction_type` varchar(16) NOT NULL,
@@ -4160,7 +4101,6 @@ CREATE TABLE `transactions` (
 -- Table structure for table `updates`
 --
 
-DROP TABLE IF EXISTS `updates`;
 CREATE TABLE `updates` (
   `id` int(11) NOT NULL,
   `version` varchar(32) NOT NULL
@@ -4207,7 +4147,6 @@ INSERT INTO `updates` (`id`, `version`) VALUES
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `ip_address` varchar(45) DEFAULT NULL,
@@ -4265,12 +4204,8 @@ INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `mobil
 (15, '2.50.154.1', 'Pannaiyar Traditional', '$2y$10$mtBj3W9/sgWGpmJ/3XQpt.Qk6Pd60WYJa3LL4L2dBcP9BxuLmkEqu', 'indiaafrica25@gmail.com', '9585465221', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1711517288, 1743258896, 1743232841, 1, NULL, 'Pannaiyar Traditional ,\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nTamilnadu, India', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'phone', 'NULL', 0, '', '2024-03-27 05:28:08'),
 (17, '2.50.154.1', 'India Silk House', '$2y$10$T02ppmKp6RyF7FYiO.Ev0u1xxng.pqbAidNf0GXa/trfC4AJGrhVC', 'ish@gmail.com', '9585465223', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1711533444, NULL, NULL, 1, NULL, 'India Silk House,\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\nTamilnadu', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'phone', 'NULL', 0, '', '2024-03-27 09:57:24'),
 (18, '2.50.154.1', 'Agri Fresh', '$2y$10$/pnhvXcMwbj3/pZxWNTPO.uzVtxmNIof5nObFmpGneuKHp6kaJx86', 'agri@gmail.com', '9585465229', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1711534151, NULL, NULL, 1, NULL, 'Agri Fresh Food stuff\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nTamilnadu', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'phone', 'NULL', 0, '', '2024-03-27 10:09:11'),
-(19, '92.99.61.74', 'Abdullah', '$2y$10$KTiRGMpUeXOrLBo/XemUHextAf7/e/6QaucJCdan1cbF4XRR01p/K', 'arimaatesting@gmail.com', '9876543216', NULL, 97.986875, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1711787409, 1743243635, NULL, 1, NULL, 'sadfdaf', 'percentage_per_order_item', 5, 854.92, NULL, NULL, NULL, NULL, NULL, NULL, '', '5,14,20', NULL, NULL, NULL, NULL, NULL, NULL, 'phone', 'uploads/delivery_boy/FlutterRoadmap_copy.png,uploads/delivery_boy/FlutterRoadmap.png', 1, '', '2024-03-30 08:30:09'),
 (22, '64.227.189.114', 'DubaiSeller', '$2y$10$7dtPMVJFefq95pvbzxpql.CvlMod533uXveJV4ozQBH3srXH9oHkO', 'dxb@gmail.com', '00971556231148', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1713642484, 1714851613, NULL, 1, NULL, 'Dubai', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTM2NDI0ODQsImlzcyI6ImVzaG9wIiwiZXhwIjoxNzQ1MTc4NDg0LCJ1c2VyX2lkIjoiMjIifQ.zbMVtziPtxcaT3dlaH-H8TTP9Gtbwy1Tls2miHDq3gg', NULL, NULL, 'cskd4Xp8QFWz-8Qv2mSFM-:APA91bEyZIjuNYBPktpY3N8baWOBSJ3gxPdOW2-l_XtK0UKVK3B21-orYJ-oFpt0x9w7tU9JPcVvBK4XIf-wApxuGqxpzXbBpJDkqfFVs0_mcmnzcx01VLYVKp0KMiJVsqDIE7U0QES6', '', '', 'phone', 'NULL', 0, '', '2024-04-20 19:48:04'),
-(23, '64.227.189.114', 'Saddam', '$2y$10$4wPPDni//Exkvyr1EHim4uuEQVua23ADzYL4P.Qf2u21qFFYfOe0q', 'sad@gmail.com', '0556231148', NULL, 14.997250000000001, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1713694675, 1713975067, NULL, 1, NULL, 'AbuDhabi', 'percentage_per_order_item', 5, 224.41, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTM2OTYzNTYsImlzcyI6ImVzaG9wIiwiZXhwIjoxNzQ1MjMyMzU2LCJ1c2VyX2lkIjoiMjMifQ.9_jJE2zeSXV5IF7MDwLW9WNd4GTqlVUmLPZ-RY2tVB0', NULL, NULL, 'e2jvO284RLayVF0StqlN33:APA91bFayVI7a4hHVu2aiXKvzGiR_NQdU7EN8kNyqs-fOABz-hP0TpK_qSi8PYe32IJmnK2C3ZeSi03-phN3m2Z5jaLq107txl_Xr5rEAqsngNwaC8D-mQcv1H2yj5-9JswvT9xT-6B-', NULL, NULL, 'phone', 'uploads/delivery_boy/mblogo.jpeg,uploads/delivery_boy/Media.jpg', 1, '', '2024-04-21 10:17:55'),
 (24, '64.227.189.114', 'HOOBY TRACK', '$2y$10$yM48l5Kam3Exq8Hm1qgYKu8QlpCXKpMmIm.Da0uoHJS6rcAZzpn46', 'arshadayoob28@gmail.com', '509841657', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1713946492, 1734612280, NULL, 1, NULL, 'AUH', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTM5NDY5ODAsImlzcyI6ImVzaG9wIiwiZXhwIjoxNzQ1NDgyOTgwLCJ1c2VyX2lkIjoiMjQifQ.E09TCdcJf4fkroZNig0ZjqaNbVe9x0dZBGI-vzCHndE', NULL, NULL, 'dVbh3rnJSjiM7xyHUmWQgj:APA91bEGBTwr9IHU_iKrCBHRPmKsFYcbbPZZQHvEv0mHv0RhWvESBxg99JP1mUlsSwIbmfrceSRcfT1gbOvMWanujzhj2kV4Cag8fTBI0NL5Xg_k7iCsDz_8ocF1oXf5u0BMjUricOyo', '', '', 'phone', 'NULL', 0, '', '2024-04-24 08:14:52'),
-(26, '64.227.189.114', 'Arshad', '$2y$10$.OR50hh2mX4jdjmNzDHxP.40cYi2pWuFKrf4i/TDKCtVtbC0oZKl.', 'addam.2290@gmail.com', '00971526459465', NULL, 84, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1713975159, 1714851846, NULL, 1, NULL, 'khaldhiya', 'fixed_amount_per_order_item', 12, 4466.84, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTM5NzU0MTYsImlzcyI6ImVzaG9wIiwiZXhwIjoxNzQ1NTExNDE2LCJ1c2VyX2lkIjoiMjYifQ.cHXjqGYOmYFSvIEsMOBEENhvOZG3agnmC53FfcqG_aI', NULL, NULL, 'dACgTLssSR2CJNzBzBtJwF:APA91bEcMrkoZAukODsqAHxmSB4IgSWuHgKmtVsQhSejMkll9-KNLhp_qlytxZR3uJ204PEjSZk2eXC7xKHZFEPpRuCzLuf81jyF76zX9goSS1hZjZ-9IwWAKBHp_bwWlToylbomjsaA', NULL, NULL, 'phone', 'uploads/delivery_boy/scaled_1000110813.jpg,uploads/delivery_boy/scaled_1000110800.jpg', 1, '', '2024-04-24 16:12:39'),
-(33, '86.96.43.191', 'nizar', '$2y$10$XToAsat9ngFaD.b6DSDBr.AN6VFAn2DK5Fjc9HEagfV4Tgj5fz.XK', 'ahamednizar336@gmail.com', '0509871561', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1740480257, NULL, NULL, 1, NULL, 'National pain near by,Muwahila,sharjha,dubai', 'fixed_amount_per_order_item', 25, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, 'phone', 'uploads/delivery_boy/Front_and_back2.png,uploads/delivery_boy/uae-driving-licence-hack-12.png', 1, '', '2025-02-25 10:44:17'),
 (46, '2.49.1.158', 'Harshini groceries', '$2y$10$UDFe/Urk4xUIp.2HqmGcAuvNXJ9Mhu3EHywhM0Unyk8ubKY/3jnEe', 'harshini@gmail.com', '0551529946', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1742652954, NULL, NULL, 1, NULL, 'Dubai', 'percentage_per_order', NULL, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'phone', 'NULL', 0, '', '2025-03-22 14:15:54');
 
 -- --------------------------------------------------------
@@ -4279,7 +4214,6 @@ INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `mobil
 -- Table structure for table `users_groups`
 --
 
-DROP TABLE IF EXISTS `users_groups`;
 CREATE TABLE `users_groups` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -4297,12 +4231,8 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (15, 15, 4),
 (17, 17, 4),
 (18, 18, 4),
-(19, 19, 3),
 (22, 22, 4),
-(23, 23, 3),
 (24, 24, 4),
-(26, 26, 3),
-(33, 33, 3),
 (46, 46, 4);
 
 -- --------------------------------------------------------
@@ -4311,7 +4241,6 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 -- Table structure for table `user_fcm`
 --
 
-DROP TABLE IF EXISTS `user_fcm`;
 CREATE TABLE `user_fcm` (
   `id` int(11) NOT NULL,
   `fcm_id` varchar(1024) NOT NULL,
@@ -4324,7 +4253,6 @@ CREATE TABLE `user_fcm` (
 -- Table structure for table `user_permissions`
 --
 
-DROP TABLE IF EXISTS `user_permissions`;
 CREATE TABLE `user_permissions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -4347,7 +4275,6 @@ INSERT INTO `user_permissions` (`id`, `user_id`, `role`, `permissions`, `created
 -- Table structure for table `wallet_transactions`
 --
 
-DROP TABLE IF EXISTS `wallet_transactions`;
 CREATE TABLE `wallet_transactions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -4365,7 +4292,6 @@ CREATE TABLE `wallet_transactions` (
 -- Table structure for table `zipcodes`
 --
 
-DROP TABLE IF EXISTS `zipcodes`;
 CREATE TABLE `zipcodes` (
   `id` int(11) NOT NULL,
   `zipcode` varchar(512) DEFAULT NULL,
