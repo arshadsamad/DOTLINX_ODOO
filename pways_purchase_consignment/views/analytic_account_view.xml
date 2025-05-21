@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<record id="account_analytic_plan_account_inherit_purchase" model="ir.ui.view">
+			<field name="name">analytic_view_plan_account_analytic</field>
+			<field name="model">account.analytic.plan</field>
+			<field name="inherit_id" ref="analytic.account_analytic_plan_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='color']" position="before">
+					<field name="is_consignment"/>
+				</xpath>
+			</field>
+		</record>
+
+	<record id="account_analytic_account_inherit_purchase" model="ir.ui.view">
+		<field name="name">analytic_view_account_analytic</field>
+		<field name="model">account.analytic.account</field>
+		<field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//sheet" position="before">
+				<header>
+					<button name="action_generate_bill"  string="Generate Bill" type="object" class="oe_highlight" attrs="{'invisible': [('is_consignments', '=', False)]}"/>
+					<button name="action_consign_account_scrap" string="Scrap" type="object" attrs="{'invisible': ['|', ('is_consignments', '=', False), ('purchase_order_id', '=', False)]}"/>
+				</header>
+			</xpath>
+			<xpath expr="//field[@name='code']" position="before">
+				<field name="purchase_order_id"/>
+				<field name="consign_container_no" readonly="1" force_save="1"/>
+			</xpath>
+			<xpath expr="//field[@name='code']" position="after">
+				<field name="is_consignments"/>
+				<field name="commission" attrs="{'invisible': [('is_consignments', '=', False)]}"/>
+			</xpath>
+			<xpath expr="//div[@name='button_box']" position="inside">
+				<button name="action_open_bill" type="object" class="oe_stat_button"  icon="fa-pencil-square-o" attrs="{'invisible': [('is_consignments', '=', False)]}">
+					<field name="bill_count" widget="statinfo" string="Consignment Bill"/> 
+				</button>
+				<button name="action_open_consign_account_inventory" type="object" string="Stock Track" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('is_consignments', '=', False)]}"/>
+				<button name="action_open_consign_account_scraps" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': ['|', ('is_consignments', '=', False), ('consignment_stock_scrap_count', '=', 0)]}">
+					<field name="consignment_stock_scrap_count" widget="statinfo" string="Scrap(s)"/>
+				</button>
+			</xpath>
+			<xpath expr="//sheet" position="inside">
+				<notebook>
+					<page name="public" string="Consignment Details" attrs="{'invisible': [('is_consignments', '=', False)]}">
+						<field name="consignment_ids">
+							<tree editable="bottom">
+								<field name="product_id" attrs="{'required':[('consignment_type','=','income')], 'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="expenses_c_id" attrs="{'required':[('consignment_type','=','expense')]}"/>
+								<!-- <field name="description"/> -->
+								<field name="is_commission_expense" invisible="1"/>
+								<field name="qty" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="uom_id" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="unit_price" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="date"/>
+								<field name="consignment_type" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="sales" sum="Total Sales"/>
+								<field name="sale_id" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="purchase_order_line_id" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+								<field name="others_expense" sum="Total Expense"/>
+								<field name="is_invoices" force_save="1" attrs="{'readonly':[('is_commission_expense', '=', True)]}"/>
+							</tree>
+						</field>
+						<group col="12" class="oe_consignment_ids_tab">
+							<group colspan="8">
+							</group>
+							<group colspan="4">
+								<group class="oe_subtotal_footer oe_right">
+									<field name="residual_value" class="oe_subtotal_footer_separator"/>
+								</group>
+							</group>
+						</group>
+					</page>
+				</notebook>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="action_analytic_account_consignment_orders" model="ir.actions.act_window">
+		<field name="name">Consignment Accounts</field>
+		<field name="res_model">account.analytic.account</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('is_consignments', '=', True)]</field>
+		<field name="context">{'default_is_consignments': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face"> Create Analytic Account </p>
+		</field>
+	</record>
+
+	<menuitem id="menu_consignments_analytic_account" 
+			name="Consignment Accounts"
+			action="action_analytic_account_consignment_orders"
+			parent="pways_purchase_consignment.menu_main_consignments"
+			sequence="3"/>
+
+	<!-- Analytic Account - Stock Scrap - Server Action -->
+	<record id="model_analytic_account_stock_scrap_server_action" model="ir.actions.server">
+		<field name="name">Scrap</field>
+		<field name="model_id" ref="analytic.model_account_analytic_account"/>
+		<field name="binding_model_id" ref="analytic.model_account_analytic_account"/>
+		<field name="binding_view_types">list</field>
+		<field name="sequence" eval="100"/>
+		<field name="state">code</field>
+		<field name="code">action = records.action_consign_account_scrap()</field>
+	</record>
+
+	<!-- Analytic Account - Stock Scrap - Form View -->
+	<record id="analytic_account_stock_scrap_form_view" model="ir.ui.view">
+		<field name="name">analytic.account.stock.scrap.form.view</field>
+		<field name="model">analytic.account.stock.scrap</field>
+		<field name="arch" type="xml">
+			<form string="Scrap" duplicate="0">
+				<sheet>
+					<field name="account_stock_scrap_line">
+						<tree string="Scrap" editable="bottom" create="0" class="account_stock_scrap_line">
+							<field name="analytic_scrap_id" invisible="1"/>
+							<field name="analytic_account_id" readonly="1" force_save="1"/>
+							<field name="product_id" readonly="1" force_save="1"/>
+							<field name="purchased_qty" readonly="1" force_save="1"/>
+							<field name="sold_qty" readonly="1" force_save="1"/>
+							<field name="scrapped_qty" readonly="1" force_save="1"/>
+							<field name="to_scrap_qty" required="1"/>
+							<field name="scrap_reason" attrs="{'required': [('to_scrap_qty', '>', 0)]}"/>
+						</tree>
+					</field>
+					<footer>
+						<button name="action_create_stock_scrap" string="Scrap" type="object" class="oe_highlight" confirm="Are you sure to Confirm Scrap ?"/>
+						<button string="Cancel" special="cancel" class="btn-secondary"/>
+					</footer>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<!-- Stock Scrap - Form View Inherit -->
+	<record id="account_analytic_stock_scrap_inherit_form_view" model="ir.ui.view">
+		<field name="name">account.analytic.stock.scrap.inherit.form.view</field>
+		<field name="model">stock.scrap</field>
+		<field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//group/group/div[1]" position="after">
+				<field name="scrap_reason"/>
+				<field name="analytic_account_id" readonly="1" force_save="1" attrs="{'invisible': [('analytic_account_id', '=', False)]}"/>
+			</xpath>
+		</field>
+	</record>
+
+	<!-- Consignment Accounts Stock View -->
+	<record id="account_consignment_stock_inventory_tree_view" model="ir.ui.view">
+		<field name="name">analytic.account.consignment.stock.inventory.tree.view</field>
+		<field name="model">analytic.account.stock.quant</field>
+		<field name="arch" type="xml">
+			<tree string="Consignment Accounts Stock" create="0" edit="0" delete="0" duplicate="0" class="consignment_account_stock_list">
+				<field name="analytic_account_id" invisible="1"/>
+				<field name="product_id"/>
+				<field name="purchased_qty"/>
+				<field name="sold_qty"/>
+				<field name="scrapped_qty"/>
+				<field name="remaining_qty"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_account_consignment_stock_inventory" model="ir.actions.act_window">
+		<field name="name">Consignment Accounts Stock</field>
+		<field name="res_model">analytic.account.stock.quant</field>
+		<field name="view_mode">tree</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+	</record>
+
+</odoo>

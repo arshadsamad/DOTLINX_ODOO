@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="external_layout_report">
+		<t t-foreach="docs" t-as="o">
+			<t t-call="pways_purchase_consignment.external_layout_header" />
+			<t t-raw="0" />
+			<t t-call="pways_purchase_consignment.external_layout_footer" />
+			<div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+				<t t-raw="0" />
+			</div>
+		</t>
+	</template>
+	<template id="external_layout_header">
+		<div class="header" style="font-family: serif;">
+			<t t-if="o.company_id.is_saleem_bash_potato_trading">
+				<div class="row">
+					<img src="/pways_purchase_consignment/static/src/img/potato_header.png" alt="Header"/>
+				</div>
+			</t>
+			<t t-else="">
+				<div class="row">
+					<img src="/pways_purchase_consignment/static/src/img/s1.png" alt="Header"/>
+				</div>
+			</t>
+		</div>
+	</template>
+	<template id="external_layout_footer">
+		<div class="footer" style="font-family: serif;">
+
+			<t t-if="o.company_id.is_saleem_bash_potato_trading">
+				<div class="row" style="margin-top:20px;">
+					<div class="col-12" style="text-align: right;">
+						For SALEEM BASHA POTATO TRADING LLC
+					</div>
+				</div>
+				<div class="row">
+					<img src="/pways_purchase_consignment/static/src/img/potato_footer.png" alt="Header"/>
+				</div>
+			</t>
+			<t t-else="">
+				<div class="row" style="margin-top:20px;">
+					<div class="col-12" style="text-align: right;">
+						For SALEEM BASHA Fruits &amp; Vegetables Trdg LLC
+					</div>
+				</div>
+				<div class="row">
+					<img src="/pways_purchase_consignment/static/src/img/s2.png" alt="Header"/>
+				</div>
+			</t>
+		</div>
+	</template>
+	<template id="report_sale">
+		<t t-call="web.html_container">
+			<t t-call="pways_purchase_consignment.external_layout_report">
+				<style>
+					.custom-table td,.custom-table th {
+						border: 1px solid black;
+						border-collapse: collapse;
+					}
+
+					.custom-table-2 th , .custom-table-2 td,.custom-table-2 tr {
+						border: none !important;
+					}
+
+					td, th {
+						padding: 5px;
+					}
+				</style>
+				<div class="page" style="font-family: serif;text-align: left;padding-top: 50px;">
+					<div style="width: 100%;text-align: center;">
+						<strong style="text-decoration: underline;text-align: center">STATEMENT OF SALE PROCEEDS</strong>
+					</div>
+					<br/>
+					<div style="width: 100%;text-align: right;">
+						<strong style="text-align: right;">Date: <t t-if="date_today" t-esc="date_today.strftime('%d/%m/%Y')"/></strong>
+					</div>
+					<br/>
+					<table style="width: 100%;" class="custom-table-2">
+						<tr>
+							<th style="width:7%;">Mr./Mss.</th>
+							<th style="width:1%;">:</th>
+							<th style="width:42%;"><t t-esc="docs.partner_id.name"/></th>
+							<th style="width:13%;"></th>
+							<th style="width:1%;"></th>
+							<th style="width:36%;"></th>
+						</tr>
+						<tr>
+							<th>Invoice</th>
+							<th>:</th>
+							<th>
+								<t t-if="invoice_ids">
+									<t t-esc="invoice_ids[0].name"/>
+								</t>
+							</th>
+							<th>ITEM</th>
+							<th>:</th>
+							<th>
+								<t t-if="purchase_order">
+									<t t-if="purchase_order.order_line">
+										<t t-esc="purchase_order.order_line[0].product_id.name"/>
+									</t>
+								</t>
+							</th>
+						</tr>
+						<tr>
+							<th>Arrived</th>
+							<th>:</th>
+							<th>
+								<t t-if="purchase_order">
+									<t t-if="purchase_order.date_planned" t-esc="purchase_order.date_planned.strftime('%d/%m/%Y')"/>
+								</t>
+							</th>
+							<th>CONT'R NO.</th>
+							<th>:</th>
+							<th>
+								<t t-if="purchase_order">
+									<t t-esc="purchase_order.consign_container_no"/>
+								</t>
+							</th>
+						</tr>
+					</table>
+					<br/>
+					<table class="custom-table">
+						<thead>
+							<tr>
+								<th>QTY.</th>
+								<th>PARTICULARS</th>
+								<th colspan="2">AMOUNT</th>
+								<th>EXPENSES</th>
+								<th colspan="2">AMOUNT DHS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<t t-set="max_number" t-value="max(len(expensed_lines),len(particulars_lines))"/>
+							<t t-set="total_a" t-value="0"/>
+							<t t-set="total_b" t-value="0"/>
+							<t t-foreach="range(0,max_number)" t-as="number">
+								<t t-set="p_line" t-value="particulars_lines[number] if len(particulars_lines) > number  else False"/>
+								<t t-set="e_line" t-value="expensed_lines[number] if len(expensed_lines) > number else False"/>
+								<tr>
+									<td style="width:5%;">
+										<t t-if="p_line">
+											<t t-esc="p_line.qty"/>
+										</t>
+									</td>
+									<td style="width:30%;">
+										<t t-if="p_line">
+											<t t-esc="p_line.qty"/> <t t-if="p_line.uom_id" t-esc="p_line.uom_id.name"/> <t t-esc="p_line.product_id.name"/> X <t t-esc="p_line.unit_price"/>
+										</t>
+									</td>
+									<td style="width:10%;">
+										<t t-if="p_line">
+											<t t-set="total_a" t-value="total_a + p_line.sales"/>
+											<t t-esc="p_line.sales"/>
+										</t>
+									</td>
+									<td style="width:5%;"></td>
+									<td style="width:35%;">
+										<t t-if="e_line">
+											<t t-esc="e_line.expenses_c_id.name"/>
+										</t>
+									</td>
+									<td style="width:10%;">
+										<t t-if="e_line">
+											<t t-set="total_b" t-value="total_b + e_line.others_expense"/>
+											<t t-esc="e_line.others_expense"/>
+										</t>
+									</td>
+									<td style="width:5%;"></td>
+								</tr>
+							</t>
+							<tr>
+								<th colspan="2">
+									<div class="row">
+										<div class="col-6" style="text-align: left;">
+											Total (A)
+										</div>
+										<div class="col-6" style="text-align: right;">
+										</div>
+									</div>
+								</th>
+								<th>
+									<t t-esc="total_a"/>
+								</th>
+								<th></th>
+								<th>
+									<div class="row">
+										<div class="col-6" style="text-align: left;">
+											Total (B)
+										</div>
+										<div class="col-6" style="text-align: right;">
+										</div>
+									</div>
+								</th>
+								<th>
+									<t t-esc="total_b"/>
+								</th>
+								<th></th>
+							</tr>
+							<tr>
+								<th colspan="4" style="text-align: left;">
+									<br/>
+								</th>
+								<th></th>
+								<th>
+									<t t-esc="total_a - total_b"/>
+								</th>
+								<th></th>
+							</tr>
+							<tr>
+								<t t-set="total_amount" t-value="get_amount_to_word(total_a - total_b)"/>
+								<th colspan="7" style="text-align: left;">Dirham's : <span style="font-style: italic;" t-esc="total_amount.upper() + ' ONLY' if total_amount else ''"/></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

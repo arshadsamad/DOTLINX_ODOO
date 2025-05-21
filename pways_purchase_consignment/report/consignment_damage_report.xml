@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="consignment_damage_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="oe_structure"/>
+                    <div class="page">
+                        <div>
+                            <div class="text-center">
+                                <span style="font-size:30px;"><b>Consignment Damage Report</b></span>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table table-sm table-bordered" style="width:100%">
+                            <thead style="font-size:13px;">
+                                <tr>
+                                    <th><strong>Consignment Account</strong></th>
+                                    <th><strong>Product</strong></th>
+                                    <th><strong>Damaged Qty</strong></th>
+                                    <th><strong>Reason</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:13px;">
+                                <tr t-foreach="stock_scrap_ids" t-as="line">
+                                    <td>
+                                        <span t-esc="line.analytic_account_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.product_id.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="line.scrap_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.scrap_reason"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="print_consignment_damage_report" model="ir.actions.report">
+			<field name="name">Consignment Damage Report</field>
+			<field name="model">consignment.damage.report.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">pways_purchase_consignment.consignment_damage_template</field>
+			<field name="report_file">pways_purchase_consignment.consignment_damage_template</field>
+			<field name="binding_model_id" ref="pways_purchase_consignment.model_consignment_damage_report_wizard"/>
+			<field name="paperformat_id" ref="pways_purchase_consignment.paperformat_consignment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+    </data>
+</odoo>
+
